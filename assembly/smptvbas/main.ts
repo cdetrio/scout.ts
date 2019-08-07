@@ -9,6 +9,9 @@ export declare function sayHello(a: i32): void;
 export declare function debug(a: i32): void;
 */
 
+@external("env", "debug_log")
+export declare function debug(a: i32): void;
+
 @external("env", "eth2_blockDataSize")
 export declare function getBlockDataSize(): i32;
 
@@ -137,7 +140,6 @@ let hashOutputPtr = changetype<usize>(hashOutputBuf);
   let addressHashOutputPtr = changetype<usize>(addressHashOutput);
   //keccak(keccakCtxBuf, address_data.dataStart, 20, addressHashOutputPtr);
   ethash_keccak256(addressHashOutputPtr, address_data.dataStart, 20);
-  //debug(addressHashOutputPtr);
 
   // use Uint8 for address_hash because it'll be converted into nibbles
   let address_hash = Uint8Array.wrap(addressHashOutput, 0, 32);
@@ -172,7 +174,6 @@ let hashOutputPtr = changetype<usize>(hashOutputBuf);
   //copyBlockData(0, input_data_len, input_data_buff_ptr);
   copyBlockData(input_data_buff_ptr, 0, input_data_len);
   let input_data = Uint8Array.wrap(input_data_buff, 0, input_data_len);
-
   //sayHello(888);
   //sayHello(input_data_len);
 
@@ -237,7 +238,6 @@ function verifyProof(wantHash: Uint64Array, key_path: Array<u8>, proof_decoded: 
                     hashOutputPtr: usize, hashOutput: Uint64Array): i32 {
 
   let kp_i = 0;
-
   // Main Loop. process each node in the proof starting from the root node, down to the leaf
   for (let i = 0; i < proof_decoded.children.length; i++) {
     //sayHello(55555);
@@ -247,12 +247,6 @@ function verifyProof(wantHash: Uint64Array, key_path: Array<u8>, proof_decoded: 
     // reuse the same context, and same output
     //keccak(keccakCtxBuf, proof_decoded.children[i].buffer.dataStart, proof_decoded.children[i].buffer.length, hashOutputPtr);
     ethash_keccak256(hashOutputPtr, proof_decoded.children[i].buffer.dataStart, proof_decoded.children[i].buffer.length);
-    //debug(hashOutputPtr);
-
-    //debug(wantHash.dataStart);
-    //debug(wantHash.length);
-    //debug(changetype<usize>(root_hash));
-    //debug(changetype<usize>(root_hash_data.buffer));
 
     // TODO: make helper for hash comparison, and use @inline
     if (  (wantHash[0] != hashOutput[0])
@@ -282,12 +276,10 @@ function verifyProof(wantHash: Uint64Array, key_path: Array<u8>, proof_decoded: 
       }
 
       //sayHello(121212);
-      //debug(next_in_path.buffer.dataStart);
 
       //wantHash = next_in_path.buffer;
       //next_in_path.buffer.byteOffset
       wantHash = Uint64Array.wrap(next_in_path.buffer.buffer, next_in_path.buffer.byteOffset, 4);
-      //debug(wantHash.dataStart);
 
     } // end branch case
 
@@ -301,20 +293,16 @@ function verifyProof(wantHash: Uint64Array, key_path: Array<u8>, proof_decoded: 
       let node_key = node_decoded.children[0];
       let node_value = node_decoded.children[1];
 
-      //debug(1311);
-      //debug(node_key.buffer.dataStart);
       /// node_key.buffer 200cd89ae762119fed6ecd8dc969077bb2d6a3471c639a10e710a9374a121db8
 
-      // key: 2         25b40cd89ae762119fed6ecd8dc969077bb2d6a3471c639a10e710a9374a121d
+      // key: 225b40cd89ae762119fed6ecd8dc969077bb2d6a3471c639a10e710a9374a121d
 
       // node_key needs to become an array of nibbles
       let node_key_nibs = uintArrToNibbleArr(node_key.buffer);
       node_key_nibs = removeHexPrefix(node_key_nibs);
 
       let sliced_path_for_nibble_matching = key_path.slice(kp_i);
-      //debug(1212);
       let match_len = matchingNibbleLength(node_key_nibs, sliced_path_for_nibble_matching);
-      //debug(match_len);
 
       if (match_len !== node_key_nibs.length) {
         //sayHello(1393939);
@@ -325,9 +313,6 @@ function verifyProof(wantHash: Uint64Array, key_path: Array<u8>, proof_decoded: 
       // in the current test vector, the leaf case is terminal so it doesn't matter
       // kp_i = kp_i + node_key_nibs.length;
 
-      //debug(kp_i);
-      //debug(key_path.length);
-      //debug(sliced_path.length);
 
       // TODO: we need another slice of the key_path
       let sliced_path_for_length_check = sliced_path_for_nibble_matching.slice(node_key_nibs.length);
@@ -341,18 +326,15 @@ function verifyProof(wantHash: Uint64Array, key_path: Array<u8>, proof_decoded: 
         // i !== proof.length - 1
 
         //sayHello(6969696);
-        //debug(node_value.buffer.dataStart);
         return node_value.buffer.dataStart;
 
       }
 
       //sayHello(151515);
-      //debug(node_value.buffer.dataStart);
-
+      
       //next_in_path.buffer.byteOffset
       wantHash = Uint64Array.wrap(node_value.buffer.buffer, node_value.buffer.byteOffset, 4);
-      //debug(wantHash.dataStart);
-    } // end leaf case
+   } // end leaf case
 
 
   } // close for loop
@@ -407,22 +389,14 @@ function getNodeType(node_data: RLPData[]): NodeType {
 
 
 function matchingNibbleLength(nib1: Array<u8>, nib2: Array<u8>): i32 {
-  //debug(1231);
-
   var i = 0;
   for (; i < nib1.length; i++) {
-    //debug(i);
-    //debug(nib1[i]);
-    //debug(nib2[i]);
-
     if (nib1[i] != nib2[i]) {
       break;
     }
     i = i + 1;
   }
 
-  //debug(i);
-  //debug(1241);
   return i;
 }
 

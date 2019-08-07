@@ -1,7 +1,7 @@
 (module
+ (type $FUNCSIG$vi (func (param i32)))
  (type $FUNCSIG$i (func (result i32)))
  (type $FUNCSIG$viii (func (param i32 i32 i32)))
- (type $FUNCSIG$vi (func (param i32)))
  (type $FUNCSIG$iii (func (param i32 i32) (result i32)))
  (type $FUNCSIG$ii (func (param i32) (result i32)))
  (type $FUNCSIG$iiii (func (param i32 i32 i32) (result i32)))
@@ -10,6 +10,7 @@
  (type $FUNCSIG$jii (func (param i32 i32) (result i64)))
  (type $FUNCSIG$v (func))
  (type $FUNCSIG$vii (func (param i32 i32)))
+ (import "env" "debug_log" (func $main/debug (param i32)))
  (import "env" "eth2_blockDataSize" (func $main/getBlockDataSize (result i32)))
  (import "env" "eth2_blockDataCopy" (func $main/copyBlockData (param i32 i32 i32)))
  (import "env" "eth2_savePostStateRoot" (func $main/savePostStateRoot (param i32)))
@@ -27,12 +28,13 @@
  (global $~lib/rt/stub/startOffset (mut i32) (i32.const 0))
  (global $~lib/rt/stub/offset (mut i32) (i32.const 0))
  (export "memory" (memory $0))
+ (export "debug" (func $main/debug))
  (export "getBlockDataSize" (func $main/getBlockDataSize))
  (export "copyBlockData" (func $main/copyBlockData))
  (export "savePostStateRoot" (func $main/savePostStateRoot))
  (export "main" (func $main/main))
  (start $start)
- (func $~lib/rt/stub/__alloc (; 4 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/rt/stub/__alloc (; 5 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -106,7 +108,7 @@
   i32.store offset=12
   local.get $3
  )
- (func $~lib/memory/memory.fill (; 5 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/memory/memory.fill (; 6 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   block $~lib/util/memory/memset|inlined.0
    local.get $1
@@ -315,7 +317,7 @@
    end
   end
  )
- (func $~lib/arraybuffer/ArrayBuffer#constructor (; 6 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#constructor (; 7 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 1073741808
@@ -331,13 +333,13 @@
   call $~lib/memory/memory.fill
   local.get $1
  )
- (func $~lib/arraybuffer/ArrayBuffer#get:byteLength (; 7 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#get:byteLength (; 8 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.const 16
   i32.sub
   i32.load offset=12
  )
- (func $~lib/typedarray/Uint64Array.wrap (; 8 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Uint64Array.wrap (; 9 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   block $folding-inner0
@@ -375,7 +377,7 @@
   end
   unreachable
  )
- (func $~lib/memory/memory.copy (; 9 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/memory.copy (; 10 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   block $~lib/util/memory/memmove|inlined.0
@@ -550,7 +552,7 @@
    end
   end
  )
- (func $~lib/rt/__allocArray (; 10 ;) (type $FUNCSIG$iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $~lib/rt/__allocArray (; 11 ;) (type $FUNCSIG$iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   i32.const 16
   local.get $2
@@ -582,7 +584,7 @@
   end
   local.get $2
  )
- (func $~lib/array/Array.create<u8> (; 11 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array.create<u8> (; 12 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.const 1073741808
   i32.gt_u
@@ -604,7 +606,7 @@
   call $~lib/memory/memory.fill
   local.get $0
  )
- (func $~lib/typedarray/Uint8Array.wrap (; 12 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array.wrap (; 13 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   block $folding-inner0
@@ -655,7 +657,7 @@
   end
   unreachable
  )
- (func $~lib/typedarray/Uint8Array#__get (; 13 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#__get (; 14 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -669,7 +671,7 @@
   i32.add
   i32.load8_u
  )
- (func $~lib/rt/stub/__realloc (; 14 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/rt/stub/__realloc (; 15 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -698,7 +700,7 @@
   end
   local.get $0
  )
- (func $~lib/array/ensureSize (; 15 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/ensureSize (; 16 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -748,7 +750,7 @@
    i32.store offset=8
   end
  )
- (func $~lib/array/Array<u8>#__set (; 16 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<u8>#__set (; 17 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $0
   i32.load offset=12
@@ -776,7 +778,7 @@
    i32.store offset=12
   end
  )
- (func $main/uintArrToNibbleArr (; 17 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $main/uintArrToNibbleArr (; 18 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -825,7 +827,7 @@
   end
   local.get $1
  )
- (func $rlp/Decoded#constructor (; 18 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $rlp/Decoded#constructor (; 19 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   i32.const 8
   i32.const 9
@@ -850,7 +852,7 @@
   i32.store offset=4
   local.get $2
  )
- (func $~lib/arraybuffer/ArrayBufferView#constructor (; 19 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBufferView#constructor (; 20 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $1
   i32.const 1073741808
   local.get $2
@@ -899,7 +901,7 @@
   i32.store offset=8
   local.get $0
  )
- (func $~lib/typedarray/Uint8Array#constructor (; 20 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#constructor (; 21 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   i32.const 12
   i32.const 6
   call $~lib/rt/stub/__alloc
@@ -907,7 +909,7 @@
   i32.const 0
   call $~lib/arraybuffer/ArrayBufferView#constructor
  )
- (func $rlp/RLPData#constructor (; 21 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $rlp/RLPData#constructor (; 22 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   if
@@ -970,7 +972,7 @@
   end
   local.get $2
  )
- (func $~lib/typedarray/Uint8Array#subarray (; 22 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#subarray (; 23 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -1053,7 +1055,7 @@
   i32.store offset=8
   local.get $1
  )
- (func $~lib/string/String#get:length (; 23 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/string/String#get:length (; 24 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.const 16
   i32.sub
@@ -1061,7 +1063,7 @@
   i32.const 1
   i32.shr_u
  )
- (func $~lib/string/String#charAt (; 24 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/string/String#charAt (; 25 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 10016
@@ -1084,7 +1086,7 @@
   i32.store16
   local.get $1
  )
- (func $~lib/array/Array<~lib/string/String>#push (; 25 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/array/Array<~lib/string/String>#push (; 26 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -1108,7 +1110,7 @@
   local.get $3
   i32.store offset=12
  )
- (func $~lib/array/Array<~lib/string/String>#reverse (; 26 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#reverse (; 27 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1157,7 +1159,7 @@
   end
   local.get $0
  )
- (func $~lib/array/Array<~lib/string/String>#join_str (; 27 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#join_str (; 28 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1314,7 +1316,7 @@
   end
   local.get $2
  )
- (func $~lib/string/String#concat (; 28 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/string/String#concat (; 29 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1355,7 +1357,7 @@
   call $~lib/memory/memory.copy
   local.get $1
  )
- (func $rlp/intToHex (; 29 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $rlp/intToHex (; 30 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   i32.const 16
@@ -1400,7 +1402,7 @@
    local.get $0
   end
  )
- (func $~lib/string/String#charCodeAt (; 30 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#charCodeAt (; 31 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   call $~lib/string/String#get:length
@@ -1416,7 +1418,7 @@
   i32.add
   i32.load16_u
  )
- (func $~lib/typedarray/Uint8Array#__set (; 31 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/typedarray/Uint8Array#__set (; 32 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -1431,14 +1433,14 @@
   local.get $2
   i32.store8
  )
- (func $~lib/arraybuffer/ArrayBufferView#get:byteOffset (; 32 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBufferView#get:byteOffset (; 33 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $0
   i32.load
   i32.sub
  )
- (func $~lib/string/String.UTF8.decodeUnsafe (; 33 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.UTF8.decodeUnsafe (; 34 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1629,7 +1631,7 @@
   i32.sub
   call $~lib/rt/stub/__realloc
  )
- (func $rlp/bytesToHex (; 34 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $rlp/bytesToHex (; 35 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1683,7 +1685,7 @@
   i32.load offset=8
   call $~lib/string/String.UTF8.decodeUnsafe
  )
- (func $~lib/string/String#slice (; 35 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/string/String#slice (; 36 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1727,7 +1729,7 @@
   call $~lib/memory/memory.copy
   local.get $3
  )
- (func $~lib/util/string/compareImpl (; 36 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/util/string/compareImpl (; 37 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   i32.const 10216
@@ -1763,7 +1765,7 @@
   end
   local.get $3
  )
- (func $~lib/string/String.__eq (; 37 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/string/String.__eq (; 38 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 10216
@@ -1793,7 +1795,7 @@
   end
   i32.const 0
  )
- (func $~lib/util/string/isSpace (; 38 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/util/string/isSpace (; 39 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.const 255
   i32.le_s
@@ -1885,7 +1887,7 @@
   end
   i32.const 0
  )
- (func $~lib/util/string/strtol<i32> (; 39 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/util/string/strtol<i32> (; 40 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -2035,7 +2037,7 @@
   end
   i32.const 0
  )
- (func $rlp/safeParseInt (; 40 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $rlp/safeParseInt (; 41 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $~lib/string/String#slice
   call $~lib/string/String.__eq
@@ -2045,7 +2047,7 @@
   local.get $0
   call $~lib/util/string/strtol<i32>
  )
- (func $rlp/_decode (; 41 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $rlp/_decode (; 42 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -2092,8 +2094,10 @@
      call $~lib/typedarray/Uint8Array#constructor
      i32.const 0
      call $rlp/RLPData#constructor
-     i32.const 0
-     call $~lib/typedarray/Uint8Array#constructor
+     local.get $0
+     local.get $2
+     i32.const 2147483647
+     call $~lib/typedarray/Uint8Array#subarray
      call $rlp/Decoded#constructor
      return
     end
@@ -2282,7 +2286,7 @@
    end
   end
  )
- (func $rlp/decode (; 42 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $rlp/decode (; 43 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   call $rlp/_decode
   local.tee $0
@@ -2294,7 +2298,7 @@
   local.get $0
   i32.load
  )
- (func $~lib/array/Array<rlp/RLPData>#__get (; 43 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<rlp/RLPData>#__get (; 44 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   i32.load offset=12
@@ -2319,7 +2323,7 @@
   i32.add
   i32.load
  )
- (func $~lib/typedarray/Uint64Array#__get (; 44 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/typedarray/Uint64Array#__get (; 45 ;) (type $FUNCSIG$jii) (param $0 i32) (param $1 i32) (result i64)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -2337,7 +2341,7 @@
   i32.add
   i64.load
  )
- (func $main/getNodeType (; 45 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $main/getNodeType (; 46 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
   i32.const 17
@@ -2371,7 +2375,7 @@
   end
   i32.const 3
  )
- (func $~lib/array/Array<u8>#slice (; 46 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#slice (; 47 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   i32.const 2147483647
@@ -2426,7 +2430,7 @@
   call $~lib/memory/memory.copy
   local.get $3
  )
- (func $main/matchingNibbleLength (; 47 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $main/matchingNibbleLength (; 48 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   loop $loop|0
    block $break|0
@@ -2452,7 +2456,7 @@
   end
   local.get $2
  )
- (func $main/verifyProof (; 48 ;) (type $FUNCSIG$iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
+ (func $main/verifyProof (; 49 ;) (type $FUNCSIG$iiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -2640,7 +2644,7 @@
   end
   i32.const 123
  )
- (func $main/main (; 49 ;) (type $FUNCSIG$i) (result i32)
+ (func $main/main (; 50 ;) (type $FUNCSIG$i) (result i32)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -2735,13 +2739,13 @@
   call $main/savePostStateRoot
   local.get $4
  )
- (func $start (; 50 ;) (type $FUNCSIG$v)
+ (func $start (; 51 ;) (type $FUNCSIG$v)
   i32.const 10256
   global.set $~lib/rt/stub/startOffset
   global.get $~lib/rt/stub/startOffset
   global.set $~lib/rt/stub/offset
  )
- (func $null (; 51 ;) (type $FUNCSIG$v)
+ (func $null (; 52 ;) (type $FUNCSIG$v)
   nop
  )
 )

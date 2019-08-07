@@ -9,6 +9,11 @@ export declare function sayHello(a: i32): void;
 export declare function debug(a: i32): void;
 */
 
+
+@external("env", "debug_log")
+export declare function debug(a: i32): void;
+
+
 /**
  * class that represents data in rlp format. Due to the lack of support for recursive
  * data types, we have to use a class instead.
@@ -172,7 +177,8 @@ export function _decode(input: Uint8Array): Decoded {
     } else if (firstByte <= 0xb7) {
         length = firstByte - 0x7f;
         if (firstByte == 0x80) {
-            return new Decoded(new RLPData(new Uint8Array(0), null), new Uint8Array(0));
+            //return new Decoded(new RLPData(new Uint8Array(0), null), new Uint8Array(0));
+            return new Decoded(new RLPData(new Uint8Array(0), null), input.subarray(length));
         }
         let data = input.subarray(1, length);
         if (length == 2 && data[0] < 0x80) {
@@ -180,6 +186,7 @@ export function _decode(input: Uint8Array): Decoded {
         }
         return new Decoded(new RLPData(data, null), input.subarray(length));
     } else if (firstByte <= 0xbf) {
+
         let llength = firstByte - 0xb6;
         length = safeParseInt(bytesToHex(input.subarray(1, llength)), 16);
         let data = input.subarray(llength, length + llength);
@@ -187,6 +194,53 @@ export function _decode(input: Uint8Array): Decoded {
             throw new Error('invalid RLP');
         }
         return new Decoded(new RLPData(data, null), input.subarray(length + llength));
+
+
+        /*
+        // a string longer than 55 bytes
+        // firstByte is between 0xb7 and 0xbf
+
+        //sayHello(96);
+        //sayHello(input.length);
+        let input_ptr = changetype<usize>(input.buffer);
+        //debug(input_ptr + input.byteOffset);
+        let llength = firstByte - 0xb6;
+        // 0xb6 is used because the slice/subarray operator  exclusive and wants length + 1;
+        let len_length = llength - 1;
+        // if the string is longer than 256 bytes, then the length needs to be read from two bytes
+        // if its longer than 65536 then it needs three bytes
+        // llength is the "length of the length"
+
+        //sayHello(33);
+        //sayHello(llength); 
+
+        //length = safeParseInt(bytesToHex(input.subarray(1, llength)), 16);
+        //length = i32(input.subarray(1, llength));
+
+        var length_view = new DataView(input.buffer, input.byteOffset + 1, llength);
+
+        //sayHello(77);
+        //sayHello(length_view.byteLength);
+        //debug(length_view.dataStart);
+
+        if (len_length == 1) { // read length from one byte
+          length = length_view.getUint8(0);
+        }
+        if (len_length == 2) { // read length from two bytes
+          length = length_view.getUint16(0);
+        }
+        //sayHello(length);
+        if (llength > 3) {
+          throw new Error('TODO');
+        }
+
+        let data = input.subarray(llength, length + llength);
+        if ((data.length as u32) < length) {
+            //sayHello(666);
+            throw new Error('invalid RLP');
+        }
+        return new Decoded(new RLPData(data, null), input.subarray(length + llength));
+        */
     } else if (firstByte <= 0xf7) {
         length = firstByte - 0xbf;
         let remainder = input.subarray(1, length);
@@ -199,6 +253,7 @@ export function _decode(input: Uint8Array): Decoded {
         return new Decoded(new RLPData(null, decoded), input.subarray(length));
     } else {
         // a list over 55 bytes long
+
         let llength = firstByte - 0xf6;
         length = safeParseInt(bytesToHex(input.subarray(1, llength)), 16);
         let totalLength = llength + length;
@@ -217,5 +272,45 @@ export function _decode(input: Uint8Array): Decoded {
             remainder = d.remainder;
         }
         return new Decoded(new RLPData(null, decoded), input.subarray(totalLength));
+
+
+        /*
+        let llength = firstByte - 0xf6;
+
+        // TODO: use a DataView here to read the length, for better clarity
+        length = i32(input.subarray(1, llength));
+
+        // old code, not sure if safeParseInt is actually necessary
+        //length = safeParseInt(bytesToHex(input.subarray(1, llength)), 16);
+
+        let totalLength = i32(llength + length);
+
+        //sayHello(1);
+        //if (totalLength > i32(input.length)) {
+        if (totalLength == 0) { // TODO: check this
+            throw new Error('invalid rlp: total length is larger than the data');
+        }
+
+        //sayHello(2);
+        let remainder = input.subarray(llength, totalLength);
+
+        if (remainder.length == 0) {
+            throw new Error('invalid rlp, List has a invalid length');
+        }
+
+        //sayHello(3);
+        let decoded: RLPData[] = [];
+        while (remainder.length) {
+            //sayHello(remainder.length)
+            //sayHello(4);
+            let d = _decode(remainder);
+            //sayHello(6);
+            decoded.push(d.data);
+            remainder = d.remainder;
+            //sayHello(7);
+        }
+        //sayHello(5);
+        return new Decoded(new RLPData(null, decoded), input.subarray(totalLength));
+        */
     }
 }
