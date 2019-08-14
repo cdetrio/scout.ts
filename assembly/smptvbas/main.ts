@@ -210,7 +210,7 @@ let hashOutputPtr = changetype<usize>(hashOutputBuf);
   // the test vector here is a proof for a single leaf, which happens to be an array of 5 nodes
   // so if we verify it 40 times, it should approximate verifying a 70 account multiproof.
   let result: i32;
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 40; i++) {
     result = verifyProof(wantHash, key_path, proof_decoded, hashOutputPtr, hashOutput);
   }
 
