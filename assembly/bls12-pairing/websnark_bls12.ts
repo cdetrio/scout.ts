@@ -12,7 +12,7 @@
 */
 
 
-bls12_g1m_toMontgomery, bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, bls12_g1m_timesScalar, bls12_g1m_affine, bls12_g1m_neg, bls12_ftm_one, bls12_pairingEq2 
+bls12_g1m_toMontgomery, bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, bls12_g1m_timesScalar, bls12_g1m_affine, bls12_g1m_neg, bls12_ftm_one, bls12_pairingEq2, bls12_pairing 
 
 //   (func $g1m_toMontgomery (export "g1m_toMontgomery")  (param $p0 i32) (param $p1 i32)
 @external("watimports", "$g1m_toMontgomery")
@@ -49,3 +49,6 @@ export declare function bls12_ftm_one(p0: i32): void;
 //   (func $bn128_pairingEq2 (export "bn128_pairingEq2") (type $t10) (param $p0 i32) (param $p1 i32) (param $p2 i32) (param $p3 i32) (param $p4 i32) (result i32)
 @external("watimports", "$bls12_pairingEq2")
 export declare function bls12_pairingEq2(p0: i32, p1: i32, p2: i32, p3: i32, p4: i32): i32;
+
+@external("watimports", "$bls12_pairing")
+export declare function bls12_pairing(p0: i32, p1: i32, p2: i32): void;

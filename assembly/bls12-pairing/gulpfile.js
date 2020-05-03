@@ -120,6 +120,7 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$g1m_neg/g, "\$websnark_bls12/bls12_g1m_neg");
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$ftm_one/g, "\$websnark_bls12/bls12_ftm_one");
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$bls12381_pairingEq2/g, "\$websnark_bls12/bls12_pairingEq2");
+    blsFuncsRenamed = blsFuncsRenamed.replace(/\$bls12381_pairing/g, "\$websnark_bls12/bls12_pairing");
 
 
     let blsFuncsWat = blsFuncsRenamed;

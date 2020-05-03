@@ -1,4 +1,4 @@
-import { bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, bls12_g2m_affine, bls12_g1m_fromMontgomery, bls12_g1m_timesScalar, bls12_g1m_affine, bls12_g1m_neg, bls12_ftm_one, bls12_pairingEq2 } from "./websnark_bls12";
+import { bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, bls12_g2m_affine, bls12_g1m_fromMontgomery, bls12_g1m_timesScalar, bls12_g1m_affine, bls12_g1m_neg, bls12_ftm_one, bls12_pairingEq2, bls12_pairing } from "./websnark_bls12";
 
 //@external("env", "debug_printMemHex")
 //export declare function debug_mem(pos: i32, len: i32): void;
@@ -86,6 +86,12 @@ export function main(): i32 {
   bls12_g2m_affine(g2_times_27 as usize, g2_times_27 as usize);
 
 
+  let pFq12_result = new ArrayBuffer(SIZE_F*12);
+  bls12_pairing(g1_times_37 as usize, g2_times_27 as usize, pFq12_result as usize);
+  eth2_savePostStateRoot(pFq12_result as usize);
+
+
+  /*
   let pFq12One = new ArrayBuffer(SIZE_F*12);
   bls12_ftm_one(pFq12One as usize);
   //eth2_savePostStateRoot(pFq12One as usize + 144);
@@ -96,6 +102,7 @@ export function main(): i32 {
   let return_buf = new Array<u32>(32);
   return_buf[0] = pairingEq2_result;
   eth2_savePostStateRoot(return_buf.buffer as usize);
+  */
 
   /*****/
 

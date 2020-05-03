@@ -28909,7 +28909,7 @@
       (i32.const 280432)
       (i32.const 281008)
       (local.get $p1)))
-  (func $bls12381_pairingEq1  (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+  (func $websnark_bls12/bls12_pairingEq1  (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (call $websnark_bls12/bls12_ftm_one
       (i32.const 282736))
     (call $bls12381_prepareG1
@@ -28969,7 +28969,7 @@
     (call $ftm_eq
       (i32.const 283888)
       (local.get $p4)))
-  (func $bls12381_pairingEq3  (param $p0 i32) (param $p1 i32) (param $p2 i32) (param $p3 i32) (param $p4 i32) (param $p5 i32) (param $p6 i32) (result i32)
+  (func $websnark_bls12/bls12_pairingEq3  (param $p0 i32) (param $p1 i32) (param $p2 i32) (param $p3 i32) (param $p4 i32) (param $p5 i32) (param $p6 i32) (result i32)
     (call $websnark_bls12/bls12_ftm_one
       (i32.const 285040))
     (call $bls12381_prepareG1
@@ -29020,7 +29020,7 @@
     (call $ftm_eq
       (i32.const 285040)
       (local.get $p6)))
-  (func $bls12381_pairingEq4  (param $p0 i32) (param $p1 i32) (param $p2 i32) (param $p3 i32) (param $p4 i32) (param $p5 i32) (param $p6 i32) (param $p7 i32) (param $p8 i32) (result i32)
+  (func $websnark_bls12/bls12_pairingEq4  (param $p0 i32) (param $p1 i32) (param $p2 i32) (param $p3 i32) (param $p4 i32) (param $p5 i32) (param $p6 i32) (param $p7 i32) (param $p8 i32) (result i32)
     (call $websnark_bls12/bls12_ftm_one
       (i32.const 286192))
     (call $bls12381_prepareG1
@@ -29085,7 +29085,7 @@
     (call $ftm_eq
       (i32.const 286192)
       (local.get $p8)))
-  (func $bls12381_pairingEq5  (param $p0 i32) (param $p1 i32) (param $p2 i32) (param $p3 i32) (param $p4 i32) (param $p5 i32) (param $p6 i32) (param $p7 i32) (param $p8 i32) (param $p9 i32) (param $p10 i32) (result i32)
+  (func $websnark_bls12/bls12_pairingEq5  (param $p0 i32) (param $p1 i32) (param $p2 i32) (param $p3 i32) (param $p4 i32) (param $p5 i32) (param $p6 i32) (param $p7 i32) (param $p8 i32) (param $p9 i32) (param $p10 i32) (result i32)
     (call $websnark_bls12/bls12_ftm_one
       (i32.const 287344))
     (call $bls12381_prepareG1
@@ -29164,7 +29164,7 @@
     (call $ftm_eq
       (i32.const 287344)
       (local.get $p10)))
-  (func $bls12381_pairing  (param $p0 i32) (param $p1 i32) (param $p2 i32)
+  (func $websnark_bls12/bls12_pairing  (param $p0 i32) (param $p1 i32) (param $p2 i32)
     (call $bls12381_prepareG1
       (local.get $p0)
       (i32.const 248424))
@@ -29340,12 +29340,12 @@
   (export "bls12381__frobeniusMap7" (func $bls12381__frobeniusMap7))
   (export "bls12381__frobeniusMap8" (func $bls12381__frobeniusMap8))
   (export "bls12381__frobeniusMap9" (func $bls12381__frobeniusMap9))
-  (export "bls12381_pairingEq1" (func $bls12381_pairingEq1))
+  (export "bls12381_pairingEq1" (func $websnark_bls12/bls12_pairingEq1))
   (export "bls12381_pairingEq2" (func $websnark_bls12/bls12_pairingEq2))
-  (export "bls12381_pairingEq3" (func $bls12381_pairingEq3))
-  (export "bls12381_pairingEq4" (func $bls12381_pairingEq4))
-  (export "bls12381_pairingEq5" (func $bls12381_pairingEq5))
-  (export "bls12381_pairing" (func $bls12381_pairing))
+  (export "bls12381_pairingEq3" (func $websnark_bls12/bls12_pairingEq3))
+  (export "bls12381_pairingEq4" (func $websnark_bls12/bls12_pairingEq4))
+  (export "bls12381_pairingEq5" (func $websnark_bls12/bls12_pairingEq5))
+  (export "bls12381_pairing" (func $websnark_bls12/bls12_pairing))
   (export "bls12381_prepareG1" (func $bls12381_prepareG1))
   (export "bls12381_prepareG2" (func $bls12381_prepareG2))
   (export "bls12381_millerLoop" (func $bls12381_millerLoop))
