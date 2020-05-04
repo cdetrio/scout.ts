@@ -7815,6 +7815,8 @@
       (local.get $p1)))
   (func $f1m_mul (export "f1m_mul") (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32)
     (local $l3 i64) (local $l4 i64) (local $l5 i64) (local $l6 i64) (local $l7 i64) (local $l8 i64) (local $l9 i64) (local $l10 i64) (local $l11 i64) (local $l12 i64) (local $l13 i64) (local $l14 i64) (local $l15 i64) (local $l16 i64) (local $l17 i64) (local $l18 i64) (local $l19 i64) (local $l20 i64) (local $l21 i64) (local $l22 i64) (local $l23 i64) (local $l24 i64) (local $l25 i64) (local $l26 i64) (local $l27 i64) (local $l28 i64) (local $l29 i64) (local $l30 i64) (local $l31 i64) (local $l32 i64) (local $l33 i64) (local $l34 i64) (local $l35 i64) (local $l36 i64) (local $l37 i64) (local $l38 i64) (local $l39 i64) (local $l40 i64) (local $l41 i64) (local $l42 i64) (local $l43 i64) (local $l44 i64) (local $l45 i64) (local $l46 i64) (local $l47 i64) (local $l48 i64) (local $l49 i64) (local $l50 i64) (local $l51 i64) (local $l52 i64) (local $l53 i64)
+    (call $main/debug_print48 (local.get $p0))
+    (call $main/debug_print48 (local.get $p1))
     (local.set $l5
       (i64.const 4294770685))
     (local.set $l3
@@ -12164,8 +12166,11 @@
               (call $int_sub
                 (local.get $p2)
                 (i32.const 776)
-                (local.get $p2))))))))
-  (func $f1m_square (export "f1m_square") (type $t0) (param $p0 i32) (param $p1 i32)
+                (local.get $p2)))))))
+
+   (call $main/debug_print48 (local.get $p2))
+   )
+  (func $f1m_squareNew (export "f1m_squareNew") (type $t0) (param $p0 i32) (param $p1 i32)
     (local $l2 i64) (local $l3 i64) (local $l4 i64) (local $l5 i64) (local $l6 i64) (local $l7 i64) (local $l8 i64) (local $l9 i64) (local $l10 i64) (local $l11 i64) (local $l12 i64) (local $l13 i64) (local $l14 i64) (local $l15 i64) (local $l16 i64) (local $l17 i64) (local $l18 i64) (local $l19 i64) (local $l20 i64) (local $l21 i64) (local $l22 i64) (local $l23 i64) (local $l24 i64) (local $l25 i64) (local $l26 i64) (local $l27 i64) (local $l28 i64) (local $l29 i64) (local $l30 i64) (local $l31 i64) (local $l32 i64) (local $l33 i64) (local $l34 i64) (local $l35 i64) (local $l36 i64) (local $l37 i64) (local $l38 i64) (local $l39 i64) (local $l40 i64) (local $l41 i64) (local $l42 i64)
     (local.set $l6
       (i64.const 4294770685))
@@ -16381,7 +16386,7 @@
                 (local.get $p1)
                 (i32.const 776)
                 (local.get $p1))))))))
-  (func $f1m_squareOld (export "f1m_squareOld") (type $t0) (param $p0 i32) (param $p1 i32)
+  (func $f1m_square (export "f1m_square") (type $t0) (param $p0 i32) (param $p1 i32)
     (call $f1m_mul
       (local.get $p0)
       (local.get $p0)

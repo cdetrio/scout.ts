@@ -80,6 +80,7 @@ function mulmodmont(a: BN, b: BN): BN {
   var result = k1.mul(field_modulus).add(res2).shrn(192);
 
   if (result.gt(field_modulus)) {
+    console.log('subtraction required...')
     result = result.sub(field_modulus)
   }
   return result
@@ -108,6 +109,19 @@ export const getImports = (env: EnvData) => {
       },
       abort: () => { throw ('Wasm aborted') },
       debug_print32: (value: number) => console.log('debug_print32: ', value),
+      debug_print48: (ptr: number) => {
+        //console.log('debug_print48: ', memget(mem, ptr, 48).toString('hex')),
+        let hex = memget(mem, ptr, 48).toString('hex').split(/(\w\w)/);
+        //console.log('hex:', hex);
+        /*
+        let hex_big_endian = hex.map(s => {
+          let s_split = s.split("");
+          s_split.reverse();
+          return s_split.join("");
+        });
+        */
+        console.log('debug_print48: ', hex.reverse().join(""));
+      },
       debug_printMem: (ptr: number, length: number) => console.log('debug_printMem: ', ptr, length, memget(mem, ptr, length)),
       debug_printMemHex: (ptr: number, length: number) => {
         console.log('debug_printMemHex: ', ptr, length, memget(mem, ptr, length).toString('hex'))
@@ -116,9 +130,12 @@ export const getImports = (env: EnvData) => {
       bignum_f1m_mul: (aOffset: number, bOffset: number, rOffset: number) => {
         const a = new BN(memget(mem, aOffset, BIGNUM_WIDTH_BYTES), 'le')
         const b = new BN(memget(mem, bOffset, BIGNUM_WIDTH_BYTES), 'le')
+        console.log('a:', a.toString(16))
+        console.log('b:', b.toString(16))
 
         var result = mulmodmont(a, b);
         var result_le = result.toArrayLike(Buffer, 'le', BIGNUM_WIDTH_BYTES);
+        console.log('result:', result.toString(16))
 
         memset(mem, rOffset, result_le)
       },

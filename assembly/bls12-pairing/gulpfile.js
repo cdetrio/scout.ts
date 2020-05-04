@@ -58,6 +58,7 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
     * load websnark bls12 wat code
     */
 
+
     // wasmsark bls module built with https://github.com/cdetrio/wasmsnark/tree/bls12-benchreport
     const blsWasm = fs.readFileSync("src/bls12381.wasm", "binary");
     var blsModule = wabt.readWasm(blsWasm, {readDebugNames: true});
@@ -66,6 +67,7 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
     blsModule.generateNames()
     blsModule.applyNames();
     const blsWat = blsModule.toText({foldExprs: true});
+
 
     // or read wat file directly (useful for inserting debug prints in the wasmsnark wat)
     //const blsWat = fs.readFileSync("src/bls12381.wat", "utf8");
@@ -141,12 +143,12 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
         const bignumIntMulImport = '(import "env" "bignum_int_mul" (func $main/bignum_int_mul (param i32 i32 i32)))';
         const bignumIntAddImport = '(import "env" "bignum_int_add" (func $main/bignum_int_add (param i32 i32 i32) (result i32)))';
         const bignumIntSubImport = '(import "env" "bignum_int_sub" (func $main/bignum_int_sub (param i32 i32 i32) (result i32)))';
-        //const bignumIntDivImport = '(import "env" "bignum_int_div" (func $main/bignum_int_div (param i32 i32 i32 i32)))';
+        const bignumIntDivImport = '(import "env" "bignum_int_div" (func $main/bignum_int_div (param i32 i32 i32 i32)))';
 
-        //const bignumImportStatements = [bignumf1mMulImport, bignumf1mAddImport, bignumf1mSubImport,
-        //                                bignumIntMulImport, bignumIntAddImport, bignumIntSubImport, bignumIntDivImport];
+        const bignumImportStatements = [bignumf1mMulImport, bignumf1mAddImport, bignumf1mSubImport,
+                                        bignumIntMulImport, bignumIntAddImport, bignumIntSubImport, bignumIntDivImport];
 
-        const bignumImportStatements = [bignumf1mMulImport, bignumf1mAddImport, bignumf1mSubImport, bignumIntMulImport, bignumIntAddImport, bignumIntSubImport];
+        //const bignumImportStatements = [bignumf1mMulImport, bignumf1mAddImport, bignumf1mSubImport, bignumIntMulImport, bignumIntAddImport, bignumIntSubImport];
 
 
         // find line number to insert at (after last import)
@@ -190,7 +192,7 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
         blsUsingBignumFuncs = blsUsingBignumFuncs.replace(/\(call \$int_mul/g, "\(call \$main/bignum_int_mul");
         blsUsingBignumFuncs = blsUsingBignumFuncs.replace(/\(call \$int_add/g, "\(call \$main/bignum_int_add");
         blsUsingBignumFuncs = blsUsingBignumFuncs.replace(/\(call \$int_sub/g, "\(call \$main/bignum_int_sub");
-        //blsUsingBignumFuncs = blsUsingBignumFuncs.replace(/\(call \$int_div/g, "\(call \$main/bignum_int_div");
+        blsUsingBignumFuncs = blsUsingBignumFuncs.replace(/\(call \$int_div/g, "\(call \$main/bignum_int_div");
 
 
         blsFuncsWat = blsUsingBignumFuncs;
