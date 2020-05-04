@@ -12,7 +12,7 @@
 */
 
 
-bls12_g1m_toMontgomery, bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, bls12_g1m_timesScalar, bls12_g1m_affine, bls12_g1m_neg, bls12_ftm_one, bls12_pairingEq2, bls12_pairing 
+bls12_g1m_toMontgomery, bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, bls12_g1m_timesScalar, bls12_g1m_affine, bls12_g1m_neg, bls12_f1m_add, bls12_ftm_one, bls12_pairingEq2, bls12_pairing 
 
 //   (func $g1m_toMontgomery (export "g1m_toMontgomery")  (param $p0 i32) (param $p1 i32)
 @external("watimports", "$g1m_toMontgomery")
@@ -34,6 +34,11 @@ export declare function bls12_g1m_affine(input: i32, output: i32): void;
 //  (func $g1m_neg (export "g1m_neg") (type $t0) (param $p0 i32) (param $p1 i32)
 @external("watimports", "$g1m_neg")
 export declare function bls12_g1m_neg(input: i32, output: i32): void;
+
+//  (func $g1m_neg (export "g1m_neg") (type $t0) (param $p0 i32) (param $p1 i32)
+@external("watimports", "$f1m_add")
+export declare function bls12_f1m_add(a: i32, b: i32, output: i32): void;
+
 
 //  (func $g1m_timesScalar (export "g1m_timesScalar") (type $t8) (param $p0 i32) (param $p1 i32) (param $p2 i32) (param $p3 i32)
 @external("watimports", "$g1m_timesScalar")

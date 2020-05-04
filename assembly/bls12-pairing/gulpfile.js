@@ -120,6 +120,7 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$g1m_affine/g, "\$websnark_bls12/bls12_g1m_affine");
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$g1m_timesScalar/g, "\$websnark_bls12/bls12_g1m_timesScalar");
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$g1m_neg/g, "\$websnark_bls12/bls12_g1m_neg");
+    //blsFuncsRenamed = blsFuncsRenamed.replace(/\$f1m_add/g, "\$websnark_bls12/bls12_g1m_neg");
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$ftm_one/g, "\$websnark_bls12/bls12_ftm_one");
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$bls12381_pairingEq2/g, "\$websnark_bls12/bls12_pairingEq2");
     blsFuncsRenamed = blsFuncsRenamed.replace(/\$bls12381_pairing/g, "\$websnark_bls12/bls12_pairing");
@@ -138,14 +139,17 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
         */
 
         const bignumf1mMulImport = '(import "env" "bignum_f1m_mul" (func $main/bignum_f1m_mul (param i32 i32 i32)))';
-        const bignumf1mAddImport = '(import "env" "bignum_f1m_add" (func $main/bignum_f1m_add (param i32 i32 i32)))';
+        //const bignumf1mAddImport = '(import "env" "bignum_f1m_add" (func $main/bignum_f1m_add (param i32 i32 i32)))';
         const bignumf1mSubImport = '(import "env" "bignum_f1m_sub" (func $main/bignum_f1m_sub (param i32 i32 i32)))';
         const bignumIntMulImport = '(import "env" "bignum_int_mul" (func $main/bignum_int_mul (param i32 i32 i32)))';
         const bignumIntAddImport = '(import "env" "bignum_int_add" (func $main/bignum_int_add (param i32 i32 i32) (result i32)))';
         const bignumIntSubImport = '(import "env" "bignum_int_sub" (func $main/bignum_int_sub (param i32 i32 i32) (result i32)))';
         const bignumIntDivImport = '(import "env" "bignum_int_div" (func $main/bignum_int_div (param i32 i32 i32 i32)))';
 
-        const bignumImportStatements = [bignumf1mMulImport, bignumf1mAddImport, bignumf1mSubImport,
+        //const bignumImportStatements = [bignumf1mMulImport, bignumf1mAddImport, bignumf1mSubImport,
+        //                                bignumIntMulImport, bignumIntAddImport, bignumIntSubImport, bignumIntDivImport];
+
+        const bignumImportStatements = [bignumf1mMulImport, bignumf1mSubImport,
                                         bignumIntMulImport, bignumIntAddImport, bignumIntSubImport, bignumIntDivImport];
 
         //const bignumImportStatements = [bignumf1mMulImport, bignumf1mAddImport, bignumf1mSubImport, bignumIntMulImport, bignumIntAddImport, bignumIntSubImport];

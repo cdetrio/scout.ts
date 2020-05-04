@@ -1,4 +1,4 @@
-import { bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, bls12_g2m_affine, bls12_g1m_fromMontgomery, bls12_g1m_timesScalar, bls12_g1m_affine, bls12_g1m_neg, bls12_ftm_one, bls12_pairingEq2, bls12_pairing } from "./websnark_bls12";
+import { bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, bls12_g2m_affine, bls12_g1m_fromMontgomery, bls12_g1m_timesScalar, bls12_g1m_affine, bls12_g1m_neg, bls12_f1m_add, bls12_ftm_one, bls12_pairingEq2, bls12_pairing } from "./websnark_bls12";
 
 //@external("env", "debug_printMemHex")
 //export declare function debug_mem(pos: i32, len: i32): void;
@@ -11,6 +11,11 @@ import { bls12_g1m_toMontgomery, bls12_g2m_toMontgomery, bls12_g2m_timesScalar, 
 
 @external("env", "eth2_blockDataSize")
 export declare function eth2_blockDataSize(): i32;
+
+//$main/bignum_f1m_add
+@external("env", "bignum_f1m_add")
+export declare function bignum_f1m_add(a: i32, b: i32, out: i32): void;
+
 
 @external("env", "eth2_blockDataCopy")
 export declare function eth2_blockDataCopy(outputOffset: i32, srcOffset: i32, length: i32): void;
@@ -30,6 +35,36 @@ export function main(): i32 {
 
   const SIZE_F = 48;
 
+  let f1m_add_result1 = new ArrayBuffer(SIZE_F);
+  let f1m_add_result2 = new ArrayBuffer(SIZE_F);
+  let f1m_add_result3 = new ArrayBuffer(SIZE_F);
+
+  bignum_f1m_add(input_data_buff as usize, input_data_buff as usize + 48, f1m_add_result1 as usize);
+  bignum_f1m_add(f1m_add_result1 as usize, input_data_buff as usize + 48, f1m_add_result2 as usize);
+  bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result2 as usize, f1m_add_result3 as usize);
+
+
+  for (let i=1; i<10001; i++) {
+    // 120000 calls
+    bignum_f1m_add(f1m_add_result3 as usize, f1m_add_result2 as usize, f1m_add_result1 as usize);
+    bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result3 as usize, f1m_add_result2 as usize);
+    bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result2 as usize, f1m_add_result3 as usize);
+
+    bignum_f1m_add(f1m_add_result3 as usize, f1m_add_result2 as usize, f1m_add_result1 as usize);
+    bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result3 as usize, f1m_add_result2 as usize);
+    bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result2 as usize, f1m_add_result3 as usize);
+
+    bignum_f1m_add(f1m_add_result3 as usize, f1m_add_result2 as usize, f1m_add_result1 as usize);
+    bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result3 as usize, f1m_add_result2 as usize);
+    bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result2 as usize, f1m_add_result3 as usize);
+
+    bignum_f1m_add(f1m_add_result3 as usize, f1m_add_result2 as usize, f1m_add_result1 as usize);
+    bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result3 as usize, f1m_add_result2 as usize);
+    bignum_f1m_add(f1m_add_result1 as usize, f1m_add_result2 as usize, f1m_add_result3 as usize);
+  }
+
+
+  eth2_savePostStateRoot(f1m_add_result3 as usize);
 
 
   //bls12.instance.exports.g1m_timesScalar(p1, s_reduced, n8, g1_mul_result);
@@ -44,9 +79,11 @@ export function main(): i32 {
   // 0x010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
   // G1 point is 144 bytes
+  /*
   let g1_gen = Uint8Array.wrap(input_data_buff, 0, 144);
   
   bls12_g1m_toMontgomery((g1_gen.buffer as usize) + g1_gen.byteOffset, (g1_gen.buffer as usize) + g1_gen.byteOffset);
+  */
 
   /*  ** test toMontgomery */
   //eth2_savePostStateRoot((g1_gen.buffer as usize) + g1_gen.byteOffset);
@@ -56,6 +93,7 @@ export function main(): i32 {
 
   /*****  pairing test **/
   // G2 point is 288 bytes
+  /*
   let g2_gen = Uint8Array.wrap(input_data_buff, 144, 288);
   bls12_g2m_toMontgomery((g2_gen.buffer as usize) + g2_gen.byteOffset, (g2_gen.buffer as usize) + g2_gen.byteOffset);
 
@@ -92,7 +130,7 @@ export function main(): i32 {
   let pFq12_result = new ArrayBuffer(SIZE_F*12);
   bls12_pairing(g1_times_37 as usize, g2_times_27 as usize, pFq12_result as usize);
   eth2_savePostStateRoot(pFq12_result as usize);
-
+  */
 
   /*
   let pFq12One = new ArrayBuffer(SIZE_F*12);

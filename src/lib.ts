@@ -87,6 +87,8 @@ function mulmodmont(a: BN, b: BN): BN {
 }
 
 
+let count_bignum_f1m_add = 0;
+
 const BIGNUM_WIDTH_BYTES = 48; // 384-bit arithmetic
 
 const TWO_POW384 = new BN('01000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', 16);
@@ -105,7 +107,8 @@ export const getImports = (env: EnvData) => {
       },
       eth2_savePostStateRoot: (ptr: number) => {
         res = memget(mem, ptr, 32)
-        //console.log('eth2_savePostStateRoot:', memget(mem, ptr, 144).toString('hex'))
+        console.log('eth2_savePostStateRoot:', memget(mem, ptr, 48).toString('hex'))
+        console.log('count_bignum_f1m_add:', count_bignum_f1m_add);
       },
       abort: () => { throw ('Wasm aborted') },
       debug_print32: (value: number) => console.log('debug_print32: ', value),
@@ -140,9 +143,16 @@ export const getImports = (env: EnvData) => {
         memset(mem, rOffset, result_le)
       },
       bignum_f1m_add: (aOffset: number, bOffset: number, outOffset: number) => {
+        //console.log('bignum_f1m_add. aOffset:', aOffset)
+        //console.log('bignum_f1m_add. bOffset:', bOffset)
+        //console.log('bignum_f1m_add. outOffset:', outOffset)
+        count_bignum_f1m_add = count_bignum_f1m_add + 1;
         const a = new BN(memget(mem, aOffset, BIGNUM_WIDTH_BYTES), 'le');
         const b = new BN(memget(mem, bOffset, BIGNUM_WIDTH_BYTES), 'le');
+        //console.log('bignum_f1m_add a:', a.toString(10));
+        //console.log('bignum_f1m_add b:', b.toString(10));
         var result = addmod(a, b);
+        //console.log('bignum_f1m_add result:', result.toString(10));
 
         var result_le = result.toArrayLike(Buffer, 'le', BIGNUM_WIDTH_BYTES)
 
