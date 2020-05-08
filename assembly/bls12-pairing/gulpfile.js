@@ -92,6 +92,7 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
     * load websnark bls12 wat code
     */
 
+    /*
     // wasmsark bls module built with https://github.com/cdetrio/wasmsnark/tree/bls12-benchreport
     const blsWasm = fs.readFileSync("src/bls12381.wasm", "binary");
     var blsModule = wabt.readWasm(blsWasm, {readDebugNames: true});
@@ -100,9 +101,11 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
     blsModule.generateNames()
     blsModule.applyNames();
     const blsWat = blsModule.toText({foldExprs: true});
+    fs.writeFileSync("src/bls12381.wat", blsWat);
+    */
 
     // or read wat file directly (useful for inserting debug prints in the wasmsnark wat)
-    //const blsWat = fs.readFileSync("src/bls12381.wat", "utf8");
+    const blsWat = fs.readFileSync("src/bls12381.wat", "utf8");
 
     /****
     * prepare to merge websnark BLS12 wasm and the assemblyscript wasm
@@ -332,7 +335,7 @@ function mergeAndWriteWasm(useBignumHostFuncs, finalFileName) {
 
         parseMergedWatAndWriteWasmFile(mergedWat, host_func_file_name);
 
-        if (bignum_func_combo.length == BignumHostFuncImports.length) {
+        if (bignum_func_combo.length == Object.keys(BignumHostFuncImports).length) {
           // save a copy of the "all host funcs" version using the standard file name
           parseMergedWatAndWriteWasmFile(mergedWat, "out/" + finalFileName + ".wasm");
         }
